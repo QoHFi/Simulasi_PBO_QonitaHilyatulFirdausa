@@ -1,6 +1,6 @@
 <?php
 // PendaftaranPrestasi.php
-require_once 'Pendaftaran.php';
+require_once '2_Pendaftaran.php';
 
 class PendaftaranPrestasi extends Pendaftaran {
     // Properti tambahan spesifik
@@ -21,6 +21,7 @@ class PendaftaranPrestasi extends Pendaftaran {
 
     // Mengimplementasikan method abstrak dari induk
     public function tampilkanInfoJalur() {
+        return "Jalur Pendaftaran: Prestasi | Jenis: " . $this->jenisPrestasi . " | Tingkat: " . $this->tingkatPrestasi;
     }
 
 

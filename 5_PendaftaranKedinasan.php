@@ -1,6 +1,6 @@
 <?php
 // PendaftaranKedinasan.php
-require_once 'Pendaftaran.php';
+require_once '2_Pendaftaran.php';
 
 class PendaftaranKedinasan extends Pendaftaran {
     // Properti tambahan spesifik
@@ -21,6 +21,7 @@ class PendaftaranKedinasan extends Pendaftaran {
 
     // Mengimplementasikan method abstrak dari induk
     public function tampilkanInfoJalur() {
+        return "Jalur Pendaftaran: Kedinasan | Instansi: " . $this->instansiSponsor . " | No SK: " . $this->skIkatanDinas;
     }
 
     // Method spesifik untuk mengambil data Kedinasan dari database

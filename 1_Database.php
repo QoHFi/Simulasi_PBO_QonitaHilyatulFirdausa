@@ -3,7 +3,7 @@
 
 class Database {
     private $host = "localhost";
-    private $db_name = "db_latihan_pbo_ti1c_qonitahilyatulfirdausa";
+    private $db_name = "db_simulasi_pbo_ti1c_qonitahilyatulfirdausa";
     private $username = "root";
     private $password = "";
     private $charset = "utf8mb4"; // Tambahan charset

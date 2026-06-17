@@ -21,6 +21,7 @@ class PendaftaranReguler extends Pendaftaran {
 
     // Mengimplementasikan method abstrak dari induk
     public function tampilkanInfoJalur() {
+        return "Jalur Pendaftaran: Reguler | Prodi: " . $this->pilihanProdi . " | Kampus: " . $this->lokasiKampus;
     }
 
 
