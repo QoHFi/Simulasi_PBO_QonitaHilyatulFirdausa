@@ -14,13 +14,16 @@ class PendaftaranPrestasi extends Pendaftaran {
         $this->tingkatPrestasi = $tingkatPrestasi;
     }
 
-    // Mengimplementasikan method abstrak dari induk
+    // Mengimplementasikan method abstrak dengan polimorfisme overriding
     public function hitungTotalBiaya() {
+        return $this->biayaPendaftaranDasar - 50000;
     }
 
     // Mengimplementasikan method abstrak dari induk
     public function tampilkanInfoJalur() {
     }
+
+
 
     // Method spesifik untuk mengambil data Prestasi dari database
     public function getDaftarPrestasi($db) {

@@ -14,13 +14,15 @@ class PendaftaranReguler extends Pendaftaran {
         $this->lokasiKampus = $lokasiKampus;
     }
 
-    // Mengimplementasikan method abstrak dari induk
+     // Mengimplementasikan method abstrak dengan polimorfisme overriding
     public function hitungTotalBiaya() {
+        return $this->biayaPendaftaranDasar;
     }
 
     // Mengimplementasikan method abstrak dari induk
     public function tampilkanInfoJalur() {
     }
+
 
     // Method spesifik untuk mengambil data Reguler dari database
     public function getDaftarReguler($db) {

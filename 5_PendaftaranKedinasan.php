@@ -14,8 +14,9 @@ class PendaftaranKedinasan extends Pendaftaran {
         $this->instansiSponsor = $instansiSponsor;
     }
 
-    // Mengimplementasikan method abstrak dari induk
+   // Mengimplementasikan method abstrak dengan polimorfisme overriding
     public function hitungTotalBiaya() {
+        return $this->biayaPendaftaranDasar * 1.25;
     }
 
     // Mengimplementasikan method abstrak dari induk
