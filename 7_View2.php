@@ -3,6 +3,7 @@
  * File: View.php
  * Deskripsi: Berkas View untuk menampilkan Dashboard Penerimaan Mahasiswa Baru Kampus QoHFi.
  * Memisahkan kategori data berdasarkan metode query spesifik & kalkulasi polimorfisme objek.
+ * Ditambahkan fitur interaktif dropdown filter kategori jalur.
  */
 
 require_once '1_Database.php';
@@ -49,6 +50,28 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
             background-color: #ff69b4 !important;
             border-bottom: 4px solid #ff1493;
         }
+        .dropdown-pink .btn-dropdown {
+            background-color: #d81b60;
+            color: white;
+            border: none;
+            font-weight: 600;
+            padding: 10px 20px;
+            border-radius: 8px;
+            box-shadow: 0 4px 10px rgba(216, 27, 96, 0.2);
+        }
+        .dropdown-pink .btn-dropdown:hover, .dropdown-pink .btn-dropdown:focus {
+            background-color: #c2185b;
+            color: white;
+        }
+        .dropdown-pink .dropdown-menu {
+            border: 1px solid #ffb6c1;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+        .dropdown-pink .dropdown-item:hover {
+            background-color: #fff0f5;
+            color: #d81b60;
+        }
         .card-pink {
             border: none;
             border-radius: 12px;
@@ -56,6 +79,7 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
             margin-bottom: 35px;
             background: white;
             overflow: hidden;
+            transition: all 0.3s ease;
         }
         .card-pink-header {
             background: linear-gradient(135deg, #ff69b4, #ffb6c1);
@@ -105,12 +129,27 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
     </nav>
 
     <div class="container my-5">
-        <div class="text-center mb-5">
+        <div class="text-center mb-4">
             <h2 class="text-pink-main display-5 font-weight-bold">Daftar Calon Mahasiswa Baru</h2>
-            <p class="text-muted">Tugas Simulasi Ujian Akhir Semester Mata Kuliah Pemrogaman Berorientasi Objek Qonita Hilyatul Firdausa.</p>
+            <p class="text-muted">Simulasi Ujian Akhir Semester Mata Kuliah Pemrogaman Berorientasi Objek Qonita Hilyatul Firdausa.</p>
         </div>
 
-        <div class="card card-pink">
+        <div class="d-flex justify-content-center mb-5 dropdown-pink">
+            <div class="dropdown">
+                <button class="btn btn-dropdown dropdown-toggle shadow-sm" type="button" id="filterDropdown" data-bs-toggle="dropdown" aria-expanded="false">
+                    🔍 Filter Berdasarkan Jalur: Semua Jalur
+                </button>
+                <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="filterDropdown">
+                    <li><a class="dropdown-item active" href="#" onclick="filterJalur('semua', 'Semua Jalur', this)">✨ Tampilkan Semua Jalur</a></li>
+                    <li><hr class="dropdown-divider"></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterJalur('reguler', 'Jalur Reguler', this)">📋 Jalur Reguler</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterJalur('prestasi', 'Jalur Prestasi', this)">🏆 Jalur Prestasi</a></li>
+                    <li><a class="dropdown-item" href="#" onclick="filterJalur('kedinasan', 'Jalur Kedinasan', this)">🎖️ Jalur Kedinasan</a></li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="card card-pink jalur-section" id="section-reguler">
             <div class="card-pink-header">📋 Kategori Jalur: REGULER</div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -121,7 +160,7 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
                                 <th style="width: 25%;">Nama Lengkap Calon</th>
                                 <th class="text-center" style="width: 10%;">Nilai Ujian</th>
                                 <th style="width: 37%;">Informasi Jalur</th>
-                                <th class="text-end" style="width: 20%;">Total Biaya Pendaftaran</th>
+                                <th class="text-end" style="width: 20%;">Total Biaya</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -129,7 +168,6 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
                                 <tr><td colspan="5" class="text-center py-4 text-muted">Belum ada data pendaftar jalur reguler di database.</td></tr>
                             <?php else:
                                 foreach ($dataReguler as $row):
-                                    // Pembuatan Instansiasi Objek Polimorfik secara Real-time berdasarkan record database
                                     $mhs = new PendaftaranReguler(
                                         $row['ID_Pendaftaran'], $row['Nama_Calon'], '-', $row['Nilai_Ujian'],
                                         $row['Biaya_Pendaftaran_Dasar'], $row['Pilihan_Prodi'], $row['Lokasi_Kampus']
@@ -149,7 +187,7 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
             </div>
         </div>
 
-        <div class="card card-pink">
+        <div class="card card-pink jalur-section" id="section-prestasi">
             <div class="card-pink-header">🏆 Kategori Jalur: PRESTASI</div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -168,7 +206,6 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
                                 <tr><td colspan="5" class="text-center py-4 text-muted">Belum ada data pendaftar jalur prestasi di database.</td></tr>
                             <?php else:
                                 foreach ($dataPrestasi as $row):
-                                    // Pembuatan Instansiasi Objek Polimorfik secara Real-time berdasarkan record database
                                     $mhs = new PendaftaranPrestasi(
                                         $row['ID_Pendaftaran'], $row['Nama_Calon'], '-', $row['Nilai_Ujian'],
                                         $row['Biaya_Pendaftaran_Dasar'], $row['Jenis_Prestasi'], $row['Tingkat_Prestasi']
@@ -188,7 +225,7 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
             </div>
         </div>
 
-        <div class="card card-pink">
+        <div class="card card-pink jalur-section" id="section-kedinasan">
             <div class="card-pink-header">🎖️ Kategori Jalur: KEDINASAN</div>
             <div class="card-body p-0">
                 <div class="table-responsive">
@@ -207,7 +244,6 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
                                 <tr><td colspan="5" class="text-center py-4 text-muted">Belum ada data pendaftar jalur kedinasan di database.</td></tr>
                             <?php else:
                                 foreach ($dataKedinasan as $row):
-                                    // Pembuatan Instansiasi Objek Polimorfik secara Real-time berdasarkan record database
                                     $mhs = new PendaftaranKedinasan(
                                         $row['ID_Pendaftaran'], $row['Nama_Calon'], '-', $row['Nilai_Ujian'],
                                         $row['Biaya_Pendaftaran_Dasar'], $row['SK_Ikatan_Dinas'], $row['Instansi_Sponsor']
@@ -234,5 +270,31 @@ $dataKedinasan = $modelKedinasan->getDaftarKedinasan($db);
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        function filterJalur(jalur, labelText, element) {
+            // 1. Ubah teks tombol dropdown utama
+            document.getElementById('filterDropdown').innerHTML = '🔍 Filter Berdasarkan Jalur: ' + labelText;
+
+            // 2. Atur status class 'active' pada item menu yang diklik
+            let items = document.querySelectorAll('.dropdown-item');
+            items.forEach(item => item.classList.remove('active'));
+            element.classList.add('active');
+
+            // 3. Logika penyembunyian dan penampilan tabel card pendaftaran
+            let sections = document.querySelectorAll('.jalur-section');
+            sections.forEach(section => {
+                if (jalur === 'semua') {
+                    section.style.display = 'block'; // Tampilkan semua
+                } else {
+                    if (section.id === 'section-' + jalur) {
+                        section.style.display = 'block'; // Tampilkan yang dicari
+                    } else {
+                        section.style.display = 'none';  // Sembunyikan yang tidak dipilih
+                    }
+                }
+            });
+        }
+    </script>
 </body>
 </html>
